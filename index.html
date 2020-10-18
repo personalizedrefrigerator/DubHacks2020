@@ -1,101 +1,12 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html>
     <head>
-        <title>...</title>
         <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <title>Identity Crisis Client</title>
 
-        <style>
-            .previewVideo
-            {
-                box-sizing: border-box;
-                width: 100%;
-                height: 100%;
-            }
-        </style>
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"/>
     </head>
     <body>
-
-<script src = "LibJS/FullLibJS.js"></script>
-<script>
-    const CONSTRAINTS = 
-    {
-        video: 
-        {
-            facingMode: "user",
-            width: { ideal: 800 },
-            height: { ideal: 400 },
-        },
-    };
-
-    let outVideo, outCanvas;
-
-    (async () =>
-    {
-        try
-        {
-            stream = await navigator.mediaDevices.getUserMedia(CONSTRAINTS);
-        }
-        catch (error)
-        {
-            await SubWindowHelper.alert("Error!", error + "");
-            return;
-        }
-
-        const outWin = SubWindowHelper.create({ title: "Camera" });
-        outCanvas = document.createElement("canvas");
-        outVideo = document.createElement("video");
-        outCanvas.setAttribute("id", "canvasOutput");
-
-        outVideo.srcObject = stream;
-        outVideo.controls = true;
-
-        outCanvas.classList.add("previewVideo");
-
-        outWin.appendChild(outCanvas);
-        document.body.appendChild(outVideo);
-
-        outVideo.play();
-    })();
-
-    async function initOpenCV()
-    {
-        while (!outVideo || !cv.Mat)
-        {
-            await JSHelper.nextAnimationFrame();
-        }
-
-        const dsize = new cv.Size(40, 40);
-        let src = new cv.Mat(outVideo.height, outVideo.width, cv.CV_8UC4);
-        let dst = new cv.Mat(40, 40, cv.CV_8UC4);
-
-        let ctx = document.createElement("canvas").getContext("2d");
-
-        while (true)
-        {
-            if (outVideo.width !== ctx.canvas.width
-                || ctx.canvas.clientHeight !== ctx.canvas.height)
-            {
-                ctx.canvas.width = ctx.canvas.clientWidth;
-                ctx.canvas.height = ctx.canvas.clientHeight;
-                
-                src.delete();
-                src = new cv.Mat(ctx.canvas.height, ctx.canvas.width * 4, cv.CV_8UC4);
-            }
-
-            dsize.width = ctx.canvas.width;
-            dsize.height = ctx.canvas.height;
-
-            //cap.read(src);
-            ctx.drawImage(outVideo, ctx.canvas.width, ctx.canvas.height);
-            src.data.set(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data);
-            //cv.resize(src, dst, dsize, 0, 0, cv.INTER_AREA);
-            cv.imshow(outCanvas, src);
-
-            await JSHelper.nextAnimationFrame();
-        }
-    }
-</script>
-<script async src = "opencv.js" onload="initOpenCV();"></script>
+        Testing 1234
     </body>
 </html>
