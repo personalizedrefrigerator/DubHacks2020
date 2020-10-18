@@ -64,8 +64,13 @@ const CameraFetch =
         })();
     },
 
-    openCameraPreview: () =>
+    openCameraPreview: (onFrame) =>
     {
+        onFrame = onFrame || ((cv, src, dst) =>
+        {
+            cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
+        });
+
         const container = document.createElement("div");
 
         const buffer = document.createElement("canvas");
@@ -89,7 +94,10 @@ const CameraFetch =
             {
                 await JSHelper.nextAnimationFrame();
 
-                if (videoView.videoWidth === 0 || videoView.videoHeight === 0)
+                videoView.width = 256;
+                videoView.height = videoView.videoHeight / videoView.videoWidth * videoView.width;
+
+                if (videoView.width === 0 || videoView.height === 0)
                 {
                     displayCtx.fillStyle = "green";
                     displayCtx.fillRect(0, 0, displayCtx.canvas.width, displayCtx.canvas.height);
@@ -97,11 +105,11 @@ const CameraFetch =
                     continue;
                 }
 
-                if (videoView.videoWidth !== display.width
-                    || videoView.videoHeight !== display.height)
+                if (videoView.width !== display.width
+                    || videoView.height !== display.height)
                 {
-                    display.width = videoView.videoWidth;
-                    display.height = videoView.videoHeight;
+                    display.width = videoView.width;
+                    display.height = videoView.height;
 
                     buffer.width = display.width;
                     buffer.height= display.height;
@@ -109,22 +117,24 @@ const CameraFetch =
                     
                     src = new cv.Mat(display.height, display.width, cv.CV_8UC4);
                     dst = new cv.Mat(display.height, display.width, cv.CV_8UC1);
-
-                    videoView.width = display.width;
-                    videoView.height = display.height;
                 }
 
                 bufferCtx.drawImage(videoView, 0, 0, buffer.width, buffer.height);
                 
                 src.data.set(bufferCtx.getImageData(0, 0, buffer.width, buffer.height).data);
-                cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
+                onFrame(cv, src, dst);
+
                 cv.imshow(display, dst);
                 bufferCtx.fillRect(0, 0, 4, 4);
             }
         })();
 
+        display.classList.add("videoDisplay");
+
         container.appendChild(display);
         container.appendChild(videoView);
+
+        videoView.style.display = "none";
 
         return container;
     },
@@ -135,7 +145,17 @@ const CameraFetch =
         console.log("Successfully loaded OpenCV.");
         
         //SubWindowHelper.alert("Loaded!", "Loaded OpenCV!!!!");
-        document.querySelector("main").appendChild(CameraFetch.openCameraPreview());
+        document.querySelector("main").appendChild(CameraFetch.openCameraPreview(
+            (cv, src, dst) =>
+            {
+                let t = (new Date() * 1) / 1000;
+                let x = Math.random() * 100;
+                let y = Math.cos(t) * 100 + 100;
+
+                cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
+                cv.putText(dst, "Meh", {x: x, y: y}, cv.FONT_HERSHEY_SIMPLEX, 1.0, [0, 255, 0, 255]);
+            }
+        ));
     }
 };
 
