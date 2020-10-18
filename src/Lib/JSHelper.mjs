@@ -797,4 +797,5 @@ function (eventType, onEnact, ...allOthers)
     return JSHelper_replacedMethods.addEventListener.apply(this, arguments);
 };
 
+export { JSHelper };
 export default JSHelper;
