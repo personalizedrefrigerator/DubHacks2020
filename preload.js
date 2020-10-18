@@ -6,8 +6,7 @@ const url = require("url");
 
 const loadES6 = require("esm")(module);
 const { CameraFetch } = loadES6("./src/CameraFetch.mjs");
-
-const tf = loadES6("@tensorflow/tfjs");
+const { EmotionDetector } = loadES6("./src/EmotionDetector.js");
 
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event
@@ -23,5 +22,5 @@ window.addEventListener("DOMContentLoaded", () =>
 
     window.cv = require("./src/opencv.js");
 
-    CameraFetch.test();
+    EmotionDetector.test();
 });

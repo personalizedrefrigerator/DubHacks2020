@@ -149,11 +149,11 @@ const CameraFetch =
             (cv, src, dst) =>
             {
                 let t = (new Date() * 1) / 1000;
-                let x = Math.random() * 100;
+                let x = Math.sin(t) * 100 + 100;
                 let y = Math.cos(t) * 100 + 100;
 
                 cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
-                cv.putText(dst, "Meh", {x: x, y: y}, cv.FONT_HERSHEY_SIMPLEX, 1.0, [0, 255, 0, 255]);
+                cv.putText(dst, "Text", {x: x, y: y}, cv.FONT_HERSHEY_SIMPLEX, 1.0, [0, 255, 0, 255]);
             }
         ));
     }
