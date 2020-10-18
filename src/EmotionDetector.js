@@ -79,7 +79,7 @@ const EmotionDetector =
                 cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
 
                 let emotion = await EmotionDetector.check(dst, cv);
-                cv.putText(dst, emotion + "", {x: x, y: y}, cv.FONT_HERSHEY_SIMPLEX, 1.0, [0, 255, 255 * (1 + Math.sin(t)) / 2, 255]);
+                cv.putText(dst, emotion + "", {x: x, y: y}, cv.FONT_HERSHEY_SIMPLEX, 1.0, [255 * (1 + Math.sin(t)) / 2, 0, 0, 255]);
             }
         ));
     }
