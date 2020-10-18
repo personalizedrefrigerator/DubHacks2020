@@ -4,6 +4,9 @@
         <title>...</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
+        <script src = "LibJS/FullLibJS.js"></script>
+        <script async src = "opencv.js" onload="initOpenCV();"></script>
     </head>
     <body>
 <script>
@@ -17,9 +20,14 @@
         }
         catch (error)
         {
-            
+            await SubWindowHelper.alert("Error!", error + "")
         }
     })();
+
+    function initOpenCV()
+    {
+        // Do stuff here.
+    }
 </script>
     </body>
 </html>
