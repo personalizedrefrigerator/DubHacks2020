@@ -1,4 +1,4 @@
-import "./MathHelper.js";
+import "./MathHelper.mjs";
 
 var JSHelper = {};
 

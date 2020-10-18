@@ -18,7 +18,8 @@ window.addEventListener("DOMContentLoaded", () =>
 
     window.cv = require("./src/opencv.js");
 
-    loadES6("./src/CameraFetch.mjs");
+    const { CameraFetch } = loadES6("./src/CameraFetch.mjs");
     console.log(document);
     console.log(window.JSHelper);
+    CameraFetch.test();
 });

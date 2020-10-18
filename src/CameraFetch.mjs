@@ -1,6 +1,8 @@
 "use strict";
 
-import "./Lib/JSHelper.js";
+import "./Lib/JSHelper.mjs";
+
+const WAIT_TIME = 100;
 
 const CameraFetch =
 {
@@ -10,16 +12,13 @@ const CameraFetch =
     {
         while (!window.cv)
         {
-            await JSHelper.nextAnimationFrame();
+            await JSHelper.waitFor(WAIT_TIME);
         }
-
-        let cv = window.cv;
-        console.log("window.cv!!!!!!");
 
         // Ref: view-source:https://docs.opencv.org/4.5.0/utils.js
         if (cv.getBuildInformation)
         {
-            return cv;
+            return;
         }
 
         return await
@@ -30,11 +29,6 @@ const CameraFetch =
 
             console.log("Okay. Waiting...")
 
-            if (typeof cv == "function")
-            {
-                cv = cv();
-            }
-
             if (cv.getBuildInformation)
             {
                 satisfied = true;
@@ -44,7 +38,9 @@ const CameraFetch =
             {
                 if (satisfy)
                 {
-                    satisfy(cv);
+                    console.log("Satisfying...");
+                    console.log(satisfy);
+                    satisfy();
                 }
 
                 satisfied = true;
@@ -54,7 +50,9 @@ const CameraFetch =
             {
                 if (satisfied)
                 {
-                    resolve(cv);
+                    resolve();
+
+                    return;
                 }
 
                 satisfy = resolve;
@@ -64,13 +62,10 @@ const CameraFetch =
 
     test: async () =>
     {
-        console.log("Waiting for cv...");
-
-        let cv = await CameraFetch.openCVAvailable();
-
-        console.log("Got OpenCV!!!");
+        await CameraFetch.openCVAvailable();
+        console.log("Successfully loaded OpenCV.");
         
-        SubWindowHelper.alert("Loaded!", "Loaded OpenCV!!!!");
+        //SubWindowHelper.alert("Loaded!", "Loaded OpenCV!!!!");
     }
 };
 
