@@ -7,7 +7,7 @@ const url = require("url");
 const loadES6 = require("esm")(module);
 const { CameraFetch } = loadES6("./src/CameraFetch.mjs");
 const { EmotionDetector } = loadES6("./src/EmotionDetector.js");
-
+const { clientMain } = loadES6("./src/ClientHelper.js");
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event
 // https://github.com/AlexTorresSk/custom-electron-titlebar/blob/master/example/preload.js
@@ -22,5 +22,14 @@ window.addEventListener("DOMContentLoaded", () =>
 
     window.cv = require("./src/opencv.js");
 
-    EmotionDetector.test(path.join(__dirname, "/res").toString());
+    let mainInput = document.querySelector("main div input");
+    let submit = document.querySelector("main div button");
+    
+    submit.addEventListener("click", () =>
+    {
+        mainInput.parentElement.style.display = "none";
+        clientMain(mainInput.value, path.join(__dirname, "/res"));
+    });
+
+    //EmotionDetector.test(path.join(__dirname, "/res").toString());
 });

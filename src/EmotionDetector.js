@@ -19,15 +19,15 @@ const buffer = document.createElement("canvas");
 
 const EmotionDetector =
 {
+    LABELS: LABELS,
+    
     cropToFaces(img, cv)
     {
         // Find faces.
         let faces = new cv.RectVector();
 
         //https://docs.opencv.org/4.5.0/d2/d99/tutorial_js_face_detection.html
-        EmotionDetector.faceCascade.detectMultiScale(img, faces, 1.1, 3, 0, EMPTY_SIZE, EMPTY_SIZE);
-
-        console.log(faces.size());
+        EmotionDetector.faceCascade.detectMultiScale(img, faces, 1.3, 5, 0, EMPTY_SIZE, EMPTY_SIZE);
 
         // Crop to the first face (if there is one).
         if (faces.size() > 0)
@@ -57,7 +57,7 @@ const EmotionDetector =
         return tensor;
     },
 
-    async check(img, cv)
+    async checkNumericOutput(img, cv)
     {
         let tensor = EmotionDetector.preprocess(img, cv);
         let data = await EmotionDetector.model.predict(tensor).data();
@@ -71,6 +71,13 @@ const EmotionDetector =
                 maxAt = i;
             }
         }
+
+        return [maxAt, max, data];
+    },
+
+    async check(img, cv)
+    {
+        let maxAt = (await EmotionDetector.checkNumericOutput(img, cv))[0];
 
         return LABELS[maxAt];
     },
