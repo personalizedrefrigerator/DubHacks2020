@@ -4,6 +4,7 @@
   "main": "main.js",
   "description": "Better video!",
   "dependencies": {
+    "custom-electron-titlebar": "^3.2.5",
     "electron-squirrel-startup": "^1.0.0"
   },
   "scripts": {
