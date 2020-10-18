@@ -72,6 +72,7 @@ const CameraFetch =
         });
 
         const container = document.createElement("div");
+        container.classList.add("canvasView");
 
         const buffer = document.createElement("canvas");
         const bufferCtx = buffer.getContext('2d');

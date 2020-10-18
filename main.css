@@ -9,14 +9,14 @@ main
     height: 100%;
 }
 
-main > div
+main > div.canvasView
 {
     box-sizing: border-box;
     display: flex;
     height: 100%;
 }
 
-main > div > canvas
+main > div.canvasView > canvas
 {
     box-sizing: border-box;
     display: block;
@@ -28,4 +28,15 @@ main > div > canvas
     margin-bottom: auto;
 
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+}
+
+main > div.inputContianer
+{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+
+    display:flex;
+    flex-direction: column;
 }

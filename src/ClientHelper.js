@@ -65,6 +65,8 @@ async function clientMain(sessionId, cwd)
                     avgEmotion /= avgCount;
                     sessionStats.set(Math.round(avgEmotion));
 
+                    console.log("Updated: " + Math.round(avgEmotion));
+
                     avgCount = 0;
                     avgEmotion = 0;
                 }
@@ -79,7 +81,7 @@ function unload()
 {
     if (sessionStats)
     {
-        sessionStats.set(null);
+        sessionStats.remove(null);
     }
 
     console.log("Unloaded!");
