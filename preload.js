@@ -22,5 +22,5 @@ window.addEventListener("DOMContentLoaded", () =>
 
     window.cv = require("./src/opencv.js");
 
-    EmotionDetector.test();
+    EmotionDetector.test(path.join(__dirname, "/res").toString());
 });
