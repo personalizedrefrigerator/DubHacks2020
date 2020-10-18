@@ -8,6 +8,11 @@ import { CameraFetch } from "./CameraFetch.mjs";
 const DATA_DIR = "./res/models/emotionsModel";
 const TARGET_SIZE = { width: 48, height: 48 };
 
+const LABELS =
+[
+    "angry", "disgust", "fear", "happy", "neutral", "sad", "surprise"
+];
+
 const buffer = document.createElement("canvas");
 
 const EmotionDetector =
@@ -27,10 +32,22 @@ const EmotionDetector =
         return tensor;
     },
 
-    check(img, cv)
+    async check(img, cv)
     {
         let tensor = EmotionDetector.preprocess(img, cv);
-        return EmotionDetector.model.predict(tensor).data();
+        let data = await EmotionDetector.model.predict(tensor).data();
+
+        let max = 0, maxAt = 0;
+        for (var i = 0; i < data.length; i++)
+        {
+            if (data[i] >= max)
+            {
+                max = data[i];
+                maxAt = i;
+            }
+        }
+
+        return LABELS[maxAt];
     },
 
     async init()
@@ -56,14 +73,13 @@ const EmotionDetector =
         document.querySelector("main").appendChild(CameraFetch.openCameraPreview(
             async (cv, src, dst) =>
             {
-                let t = (new Date() * 1) / 1000;
-                let x = Math.sin(t) * 100 + 100;
-                let y = Math.cos(t) * 100 + 100;
+                let x = 100;
+                let y = 100;
 
                 cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
 
                 let emotion = await EmotionDetector.check(dst, cv);
-                cv.putText(dst, emotion + "", {x: x, y: y}, cv.FONT_HERSHEY_SIMPLEX, 1.0, [0, 255, 0, 255]);
+                cv.putText(dst, emotion + "", {x: x, y: y}, cv.FONT_HERSHEY_SIMPLEX, 1.0, [255, 255, 0, 255]);
             }
         ));
     }
