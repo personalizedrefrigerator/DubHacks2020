@@ -10,7 +10,7 @@ function createWindow()
         width: 800,
         height: 600,
         backgroundColor: "#ffffff",
-        titleBarStyle: "hidden",
+        frame: false,
         webPreferences:
         {
             nodeIntegration: true,
@@ -20,6 +20,7 @@ function createWindow()
             // https://www.electronjs.org/docs/api/browser-window#class-browserwindow
             worldSafeExecuteJavaScript: true,
             contextIsolation: true,
+            enableRemoteModule: true,
         },
     });
 
