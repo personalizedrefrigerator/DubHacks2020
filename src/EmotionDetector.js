@@ -54,12 +54,11 @@ const EmotionDetector =
     {
         if (EmotionDetector.model)
         {
-            console.log("Already loaded!");
             return;
         }
 
         EmotionDetector.model = await tf.loadLayersModel(DATA_DIR + "/model.json");
-        console.log("Done!");
+        console.log("Done loading model!");
     },
 
     async test()
@@ -73,13 +72,14 @@ const EmotionDetector =
         document.querySelector("main").appendChild(CameraFetch.openCameraPreview(
             async (cv, src, dst) =>
             {
+                let t = (new Date()).getTime() / 1000;
                 let x = 100;
                 let y = 100;
 
                 cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
 
                 let emotion = await EmotionDetector.check(dst, cv);
-                cv.putText(dst, emotion + "", {x: x, y: y}, cv.FONT_HERSHEY_SIMPLEX, 1.0, [255, 255, 0, 255]);
+                cv.putText(dst, emotion + "", {x: x, y: y}, cv.FONT_HERSHEY_SIMPLEX, 1.0, [0, 255, 255 * (1 + Math.sin(t)) / 2, 255]);
             }
         ));
     }
