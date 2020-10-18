@@ -74,10 +74,10 @@
         while (true)
         {
             if (outVideo.width !== ctx.canvas.width
-                || outVideo.height !== ctx.canvas.height)
+                || ctx.canvas.clientHeight !== ctx.canvas.height)
             {
-                ctx.canvas.width = outVideo.width;
-                ctx.canvas.height = outVideo.height;
+                ctx.canvas.width = ctx.canvas.clientWidth;
+                ctx.canvas.height = ctx.canvas.clientHeight;
                 
                 src.delete();
                 src = new cv.Mat(ctx.canvas.height, ctx.canvas.width * 4, cv.CV_8UC4);
