@@ -1,5 +1,7 @@
 "use strict";
 
+import "./Lib/JSHelper.js";
+
 const CameraFetch =
 {
     // => Promise<OpenCV> when OpenCV becomes
