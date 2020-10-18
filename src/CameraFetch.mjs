@@ -122,7 +122,12 @@ const CameraFetch =
                 bufferCtx.drawImage(videoView, 0, 0, buffer.width, buffer.height);
                 
                 src.data.set(bufferCtx.getImageData(0, 0, buffer.width, buffer.height).data);
-                onFrame(cv, src, dst);
+                let result = onFrame(cv, src, dst);
+
+                if (result && result["then"])
+                {
+                    await result;
+                }
 
                 cv.imshow(display, dst);
                 bufferCtx.fillRect(0, 0, 4, 4);
