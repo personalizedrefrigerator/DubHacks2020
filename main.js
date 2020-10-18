@@ -11,6 +11,7 @@ function createWindow()
         height: 600,
         backgroundColor: "#ffffff",
         frame: false,
+        icon: path.join(__dirname, "favicon.png"),
         webPreferences:
         {
             nodeIntegration: true,
