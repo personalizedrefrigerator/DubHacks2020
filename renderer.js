@@ -1,3 +1,8 @@
-import { CameraFetch } from "./src/CameraFetch.js";
+const { ipcRenderer } = require('electron');
 
-CameraFetch.test();
+ipcRenderer.on('asynchronous-reply', (event, arg) =>
+{
+    console.log(arg);
+});
+
+ipcRenderer.send('asynchronous-message', 'loaded');

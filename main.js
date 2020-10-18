@@ -3,9 +3,11 @@ const path = require('path');
 
 // See https://www.electronjs.org/docs/tutorial/quick-start#create-a-basic-application
 
+let win = null;
+
 function createWindow()
 {
-    const win = new BrowserWindow(
+    win = new BrowserWindow(
     {
         width: 800,
         height: 600,
@@ -28,7 +30,11 @@ function createWindow()
     });
 
     win.loadFile('index.html');
-    win.webContents.openDevTools();
+
+    win.on('closed', () =>
+    {
+        win = null;
+    });
 }
 
 // Ref: https://www.tutorialspoint.com/electron/electron_menus.htm
@@ -40,7 +46,14 @@ const MENU_TEMPLATE =
         {
             app.quit();
         }
-    }
+    },
+    {
+        label: "Debug",
+        click()
+        {
+            win.webContents.openDevTools();
+        },
+    },
 ];
 
 const menu = Menu.buildFromTemplate(MENU_TEMPLATE);
