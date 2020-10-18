@@ -2,14 +2,18 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Identity Crisis Client</title>
+        <title>IC Client</title>
 
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"/>
+        <!-- unsafe-eval is required for OpenCV -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'self'; connect-src 'self' data:; script-src 'self' https://docs.opencv.org/master/opencv.js; style-src 'self' 'unsafe-inline'; img-src 'self' data:"/>
         <link rel="stylesheet" href="main.css"/>
 
-        <script src = "renderer.js"></script>
+
+        <script src = "https://docs.opencv.org/master/opencv.js"></script>
+        <script src = "./LibJS/FullLibJS.js"></script>
+        <script type = "module" src = "renderer.js"></script>
     </head>
     <body>
-        Testing 12345
+        
     </body>
 </html>
