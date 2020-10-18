@@ -7,6 +7,8 @@ const url = require("url");
 const loadES6 = require("esm")(module);
 const { CameraFetch } = loadES6("./src/CameraFetch.mjs");
 
+const tf = loadES6("@tensorflow/tfjs");
+
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event
 // https://github.com/AlexTorresSk/custom-electron-titlebar/blob/master/example/preload.js
@@ -22,9 +24,4 @@ window.addEventListener("DOMContentLoaded", () =>
     window.cv = require("./src/opencv.js");
 
     CameraFetch.test();
-});
-
-ipcMain.on('asynchronous-message', (event, arg) =>
-{
-    console.log("Got message!!!! " + arg);
 });

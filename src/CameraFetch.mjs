@@ -6,6 +6,10 @@ const WAIT_TIME = 100;
 
 const CameraFetch =
 {
+    VIDEO_QUERY_OPTIONS:
+    {
+        video: true,
+    },
     // => Promise<OpenCV> when OpenCV becomes
     // available.
     openCVAvailable: async () =>
@@ -60,12 +64,33 @@ const CameraFetch =
         })();
     },
 
+    openCameraPreview: () =>
+    {
+        const container = document.createElement("div");
+
+        const display = document.createElement("canvas");
+        const videoView = document.createElement("video");
+
+        (async () =>
+        {
+            const stream = await navigator.mediaDevices.getUserMedia(CameraFetch.VIDEO_QUERY_OPTIONS);
+
+            videoView.srcObject = stream;
+            videoView.play();
+        })();
+
+        container.appendChild(videoView);
+
+        return container;
+    },
+
     test: async () =>
     {
         await CameraFetch.openCVAvailable();
         console.log("Successfully loaded OpenCV.");
         
         //SubWindowHelper.alert("Loaded!", "Loaded OpenCV!!!!");
+        document.querySelector("main").appendChild(CameraFetch.openCameraPreview());
     }
 };
 

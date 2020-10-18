@@ -1,6 +1,11 @@
 const { app, BrowserWindow, Menu, MenuItem } = require('electron');
 const path = require('path');
 
+
+const loadES6 = require("esm")(module);
+//const tf = loadES6("@tensorflow/tfjs");
+
+
 // See https://www.electronjs.org/docs/tutorial/quick-start#create-a-basic-application
 
 let win = null;
@@ -30,6 +35,7 @@ function createWindow()
     });
 
     win.loadFile('index.html');
+    win.webContents.openDevTools();
 
     win.on('closed', () =>
     {
